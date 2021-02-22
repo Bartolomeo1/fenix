@@ -18,6 +18,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
 import androidx.test.uiautomator.Until
@@ -114,6 +115,22 @@ object TestHelper {
 
             if (downloadedFile.exists()) {
                 downloadedFile.delete()
+            }
+        }
+    }
+
+    fun setNetworkEnabled(enabled: Boolean) {
+        val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+
+        when (enabled) {
+            true -> {
+                mDevice.executeShellCommand("svc data enable")
+                mDevice.executeShellCommand("svc wifi enable")
+            }
+
+            false -> {
+                mDevice.executeShellCommand("svc data disable")
+                mDevice.executeShellCommand("svc wifi disable")
             }
         }
     }
