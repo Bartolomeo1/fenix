@@ -58,8 +58,8 @@ class DownloadRobot {
     }
 
     fun waitForDownloadsListToExist() =
-        assertTrue(mDevice.findObject(UiSelector().resourceId("org.mozilla.fenix.debug:id/download_list"))
-            .waitForExists(waitingTime))
+        mDevice.findObject(UiSelector().resourceId("org.mozilla.fenix.debug:id/download_list"))
+            .waitForExists(waitingTime)
 
     class Transition {
         fun clickDownload(interact: DownloadRobot.() -> Unit): Transition {

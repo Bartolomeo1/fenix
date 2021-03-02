@@ -52,6 +52,7 @@ class SmokeTest {
     private val downloadFileName = "Globe.svg"
     val collectionName = "First Collection"
     private var bookmarksListIdlingResource: RecyclerViewIdlingResource? = null
+    private var downloadsListIdlingResource: RecyclerViewIdlingResource? = null
 
     // This finds the dialog fragment child of the homeFragment, otherwise the awesomeBar would return null
     private fun getAwesomebarView(): View? {
@@ -103,6 +104,10 @@ class SmokeTest {
 
         if (bookmarksListIdlingResource != null) {
             IdlingRegistry.getInstance().unregister(bookmarksListIdlingResource!!)
+        }
+
+        if (downloadsListIdlingResource != null) {
+            IdlingRegistry.getInstance().unregister(downloadsListIdlingResource!!)
         }
 
         if (readerViewNotification != null) {
@@ -854,6 +859,9 @@ class SmokeTest {
         }.openThreeDotMenu {
         }.openDownloadsManager {
             waitForDownloadsListToExist()
+            downloadsListIdlingResource = RecyclerViewIdlingResource(activityTestRule.activity.findViewById(R.id.download_list), 1)
+            IdlingRegistry.getInstance().register(downloadsListIdlingResource!!)
+
             verifyDownloadedFileName(downloadFileName)
             verifyDownloadedFileIcon()
             deleteDownloadFromStorage(downloadFileName)
